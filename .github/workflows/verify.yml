@@ -1,0 +1,21 @@
+name: Verify
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+      - run: test -f skills/skeleton-first/SKILL.md
+      - run: test -z "$(gofmt -l skills examples)"
+      - run: skills/skeleton-first/scripts/check-skeleton examples/library

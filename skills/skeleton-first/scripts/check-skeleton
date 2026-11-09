@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Check a Go skeleton: build, vet, INVARIANTS.md cross-references,
+# contract coverage and length, remaining stubs.
+# Usage: check-skeleton [flags] [project-root]
+set -euo pipefail
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+bin="${XDG_CACHE_HOME:-$HOME/.cache}/skeleton-first/check-skeleton"
+mkdir -p "$(dirname "$bin")"
+(cd "$here/checkskeleton" && go build -o "$bin" .)
+export CHECK_SKELETON_CWD="$PWD"
+exec "$bin" "$@"
